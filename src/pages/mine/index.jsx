@@ -181,7 +181,7 @@ export default class Index extends Component {
               <Text className='userName'>
                 {userInfo.userName || userInfo.nickName}
               </Text>
-              <Text className='address'>{`共拼车:${allCount}次 | 余额:${userInfo.amount}元 | 待出行:${waitOrderCount}`}</Text>
+              <Text className='address'>{`共发布:${allCount}次 | 余额:${userInfo.amount}元 | 待出行:${waitOrderCount}`}</Text>
             </>
           ) : (
             <AtButton
@@ -205,8 +205,7 @@ export default class Index extends Component {
           urgentPhone={urgentPhone}
         />
 
-        {/* 版本信息 */}
-        <Text className='version'> version V1.0</Text>
+        <Text className='version'> ——乘客端——</Text>
         <AtButton onClick={()=>{Taro.switchTab({url:'/pages/push/add'})}}>发布行程</AtButton>
       </View>
     );

@@ -9,8 +9,10 @@ import {
   AtModalContent,
   AtInput,
   AtModalAction,
-  AtNoticebar
+  AtNoticebar,
+  AtDivider
 } from "taro-ui";
+import moment from 'moment'
 import "./index.scss";
 import utils from "../../utils/index";
 
@@ -21,6 +23,7 @@ export default class Index extends Component {
       isOpened: false,
       amount: 100,
       rechargeRecord: [], // 充值记录
+      rechargeRecordPay:[], // 支付记录
       totalRecharge: 0, // 总充值金额
       totalPay: 0, // 总支付金额
       money: 100
@@ -63,7 +66,7 @@ export default class Index extends Component {
   getPayRecord = async () => {
     const {
       data: { data } = {}
-    } = await utils.request("RechargeRecord/getRecord", { type: 2 });
+    } = await utils.request("RechargeRecord/getRecord", { type: 0 });
     console.log("支付data", data);
     // 计算总支付金额
     let totalPay = 0;
@@ -71,7 +74,8 @@ export default class Index extends Component {
       totalPay = item.money + totalPay;
     });
     this.setState({
-      totalPay
+      totalPay,
+      rechargeRecordPay: data
     });
   };
 
@@ -107,8 +111,11 @@ export default class Index extends Component {
       totalRecharge,
       totalPay,
       rechargeRecord,
+      rechargeRecordPay,
       money
     } = this.state;
+    console.log('rechargeRecordPay',rechargeRecordPay)
+    const data = [...rechargeRecord,...rechargeRecordPay]
     return (
       <View className='wallet'>
         <AtNoticebar marquee icon='volume-plus'>
@@ -155,6 +162,17 @@ export default class Index extends Component {
             title='充值次数'
             extraText={`${rechargeRecord.length}次`}
           />
+        </AtList>
+        {/* 历史记录 */}
+        <AtDivider content='历史记录' fontColor='#ed3f14' lineColor='#ed3f14' />
+        <AtList>
+          {data.map(item => (
+            <AtListItem
+              key={item.id}
+              title={moment(+item.createdAt).format("YYYY-MM-DD HH:MM:ss")}
+              extraText={`${item.type==0?'- ':'+ '}${item.money}元`}
+            />
+          ))}
         </AtList>
         <AtButton
           className='Recharge'

@@ -60,6 +60,27 @@ export default class MySetGrid extends Component {
       this.setState({
         helpOpen: true
       });
+    } else if (index === 4) {
+      wx.makePhoneCall({
+        phoneNumber: "110", 
+        success: function() {
+          wx.showToast({
+            title: '拨打电话成功！',
+            icon: "success",
+            duration: 2000
+          });
+          console.log("拨打电话成功！");
+        },
+
+        fail: function() {
+          wx.showToast({
+            title: '您已取消拨打',
+            icon: "error",
+            duration: 2000
+          });
+          console.log("拨打电话失败！");
+        }
+      });
     } else {
       Taro.navigateTo({
         url: `/pages/${item.path}/index`
@@ -87,7 +108,7 @@ export default class MySetGrid extends Component {
         <AtModal isOpened={helpOpen}>
           <AtModalHeader>使用帮助</AtModalHeader>
           <AtModalContent>
-          使用帮助使用帮助使用帮助使用帮助使用帮助使用帮助使用帮助使用帮助使用帮助
+            使用帮助使用帮助使用帮助使用帮助使用帮助使用帮助使用帮助使用帮助使用帮助
           </AtModalContent>
           <AtModalAction>
             {" "}

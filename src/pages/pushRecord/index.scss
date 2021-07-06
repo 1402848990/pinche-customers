@@ -1,4 +1,7 @@
 .pushRecord{
+  .detailModal{
+    font-size: 24px !important;
+  }
   .at-card{
     margin: 0;
     margin-bottom: 20px;
@@ -25,6 +28,7 @@
     margin-right: 15px;
   }
   .local{
+    max-width: 580px;
     margin-bottom: 10px;
   }
   .endLocal:before{
@@ -66,9 +70,9 @@
     font-size: 32px;
   }
   .at-list__item .item-content__info-title {
-    color: #5f3290;
-    font-weight: 400;
-    font-size: 40px;
+    color: #3f51b5;
+    // font-weight: 400;
+    font-size: 32px;
   }
   .at-list__item .item-content__info-note {
     color: #e86212;

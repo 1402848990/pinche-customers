@@ -29,3 +29,8 @@
 .weui-input {
   overflow: hidden;
 }
+.weui-toptips,.weui-toptips_warn{
+  height: 50px;
+  font-size: 26px;
+  line-height: 50px;
+}

@@ -1,4 +1,19 @@
 .index {
+  .doOrder{
+    background-color: #3f51b5 !important;
+    // color: #032573  !important;
+    // border: 1px solid #032573  !important;
+    width: 150px;
+  }
+  .num:before{
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #e9ae55;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
   background-color: white;
   .pushRecord{
     background-color: white;
@@ -45,7 +60,7 @@
     .status{
       float: right;
       margin-bottom: 30px;
-      margin-top: -85px;
+      margin-top: -105px;
       font-size: 32px;
     }
     .btn-addType{
@@ -142,7 +157,7 @@
   }
   .at-card__header-title,
   .at-card__header-extra {
-    color: #bfbfbf;
+    color: #795548;
   }
   .at-card {
     border-top: 0;
@@ -156,3 +171,4 @@
     border-bottom: 1PX #ff980085 dashed;
   }
 }
+

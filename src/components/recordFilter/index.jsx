@@ -23,17 +23,24 @@ export default class MySetGrid extends Component {
     this.state = {
       isOpened: false,
       helpOpen: false,
-      status: 0
+      status: 0,
+      seat: undefined,
+      startDate: Date.now(),
+      endDate: Date.now() + 1000 * 60 * 60 * 24 * 365
     };
   }
 
   // 处理时间选择
   bindDateChange = async (field, { detail: { value } = {} }) => {
+    const { seat, startLocal, endLocal } = this.state;
     console.log(field, value);
     value = `${value} ${field === "startDate" ? "00:00:00" : "23:59:59"}`;
     if (field === "startDate") {
       const { endDate = moment().format("YYYY-MM-DD 23:59:59") } = this.state;
       await this.props.getCusRecordList({
+        seat,
+        startLocal,
+        endLocal,
         endDate:
           typeof endDate === "string" ? new Date(endDate).getTime() : endDate,
         [field]: typeof value === "string" ? new Date(value).getTime() : value
@@ -42,6 +49,9 @@ export default class MySetGrid extends Component {
       const { startDate = moment().format("YYYY-MM-DD 00:00:00") } = this.state;
       console.log("----startDate", startDate);
       await this.props.getCusRecordList({
+        seat,
+        startLocal,
+        endLocal,
         startDate:
           typeof startDate === "string"
             ? new Date(startDate).getTime()
@@ -72,12 +82,20 @@ export default class MySetGrid extends Component {
   // 选择剩余空座
   bindSeatChange = ({ detail: { value } }) => {
     this.props.getCusRecordList({
-      seat: +value
+      seat: +value + 1
+    });
+    this.setState({
+      seat: +value + 1
     });
   };
 
   // 订单状态选择
   handleStatus = status => {
+    status = +status;
+    console.log("status", status);
+    this.props.getCusRecordList({
+      status: status === 0 ? undefined : status === 5 ? 9 : status - 1
+    });
     this.setState({
       status
     });
@@ -143,25 +161,29 @@ export default class MySetGrid extends Component {
           </AtButton>
         </View>
         {/* 乘客人数   订单状态 */}
-        <View className='date'>
-          <Text className='title'>剩余空座：</Text>
-          <picker
-            className='datePicker'
-            onChange={this.bindSeatChange}
-            mode='selector'
-            range={empSeat}
-            value={0}
-          >
-            <AtButton className='picker' size='small'>
-              {seat}
-            </AtButton>
-          </picker>
-        </View>
-        <AtSegmentedControl
-          values={["全部", "已关闭", "进行中"]}
-          onClick={this.handleStatus}
-          current={this.state.status}
-        />
+        {this.props.seatSelect && (
+          <View className='date'>
+            <Text className='title'>剩余空座：</Text>
+            <picker
+              className='datePicker'
+              onChange={this.bindSeatChange}
+              mode='selector'
+              range={empSeat}
+              value={this.state.seat}
+            >
+              <AtButton className='picker' size='small'>
+                {(seat == 0 && seat) || (seat && seat)}
+              </AtButton>
+            </picker>
+          </View>
+        )}
+        {this.props.statusSelect && (
+          <AtSegmentedControl
+            values={["全部", "待成单", "待出行", "进行中", "已完成", "已废弃"]}
+            onClick={this.handleStatus}
+            current={this.state.status}
+          />
+        )}
       </View>
     );
   }

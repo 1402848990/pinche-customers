@@ -115,6 +115,13 @@ Page({
     console.log("data---", data);
     const res = await utils.request("CusRecord/add", data);
     console.log("res", res);
+    if(res.data.success){
+      wx.showToast({
+        title: '发布成功',
+        icon: 'success',
+        duration: 2000
+      })
+    }
     // util.req("info/add", data, function(data) {
     //   if (data.status == 1) {
     //     wx.redirectTo({
